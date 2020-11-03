@@ -1,50 +1,51 @@
-const express = require('express')
-const knex = require('knex')
-const db = require('../data/config')
+const express = require("express")
+const knex = require("knex")
+const db = require("../data/config")
 
 const router = express.Router()
 
 // GET CARS
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
     try {
-        res.json(await db('cars'))
-    } catch (err) {
-        next(err)
+        res.json(await db("cars"))
+    } catch(error) {
+        next(error)
     }
 })
 
 // GET CAR BY ID
-router.get('/:id', async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
     try {
         const { id } = req.params
-        const car = await db('cars').where({id}).first()
+        const car = await db("cars").where({ id }).first()
         res.json(car)
-    } catch(err) {
-        next(err)
+    } catch(error) {
+        next(error)
     }
 })
 
 // ADD CAR
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
     try {
-        const [ id ] = await db('cars').insert(req.body)
-        const newCar = await db('cars').where({ id }).first()
+        const [id] = await db("cars").insert(req.body)
+        const newCar = await db("cars").where({ id }).first()
         res.status(201).json(newCar)
-    } catch (err) {
-        next(err)
+    } catch (error) {
+        next(error)
     }
 })
+
 
 // STRETCH API PROBLEMS
 
 // UPDATE CAR
-router.put('/:id', async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
     try {
         const { id } = req.params
-        const car = await db('cars').where({ id }).update(req.body)
+        const car = await db("cars").where({ id }).update(req.body)
         res.status(200).json(car)
-    } catch (err) {
-        next(err)
+    } catch (error) {
+        next(error)
     }
 })
 
